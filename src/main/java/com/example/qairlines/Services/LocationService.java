@@ -4,6 +4,7 @@ import com.example.qairlines.DTO.LocationDTO;
 import com.example.qairlines.Model.Location;
 import com.example.qairlines.Repository.LocationRepository;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

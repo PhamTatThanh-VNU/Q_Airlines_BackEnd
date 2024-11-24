@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface LocationRepository extends JpaRepository<Location, Long> {
 
-    @Query("SELECT new com.example.qairlines.DTO.LocationDTO(location.name, location.code)  from Location location")
+    @Query("SELECT new com.example.qairlines.DTO.LocationDTO(l.locationName,l.airportName,l.code)  from Location l")
     List<LocationDTO> findAllLocation();
 }
