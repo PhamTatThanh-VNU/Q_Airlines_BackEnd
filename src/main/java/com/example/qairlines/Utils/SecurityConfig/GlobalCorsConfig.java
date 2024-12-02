@@ -1,4 +1,4 @@
-package com.example.qairlines.Utils;
+package com.example.qairlines.Utils.SecurityConfig;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
