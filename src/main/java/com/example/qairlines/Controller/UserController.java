@@ -5,10 +5,8 @@ import com.example.qairlines.Model.User;
 import com.example.qairlines.Services.UserServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping
@@ -24,5 +22,10 @@ public class UserController {
     @PostMapping("/auth")
     public ResponseEntity<String> auth(@RequestBody AuthUser authUser) {
         return ResponseEntity.ok(userServices.auth(authUser));
+    }
+    @GetMapping("/userInfo")
+    public ResponseEntity<User> getCurrentUser(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return ResponseEntity.ok(user);
     }
 }

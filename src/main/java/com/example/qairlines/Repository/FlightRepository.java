@@ -5,6 +5,7 @@ import com.example.qairlines.DTO.FlightDTO;
 import com.example.qairlines.DTO.LocationDTO;
 import com.example.qairlines.Model.Flight;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -32,5 +33,8 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
     List<FlightDTO> getFlightDetails(@Param("originCode") String originCode,
                                      @Param("destinationCode") String destinationCode,
                                      @Param("departureTime") LocalDate departureTime);
+    @Modifying
+    @Query("UPDATE Flight f SET f.availableSeats = f.availableSeats - :totalPeople WHERE f.id = :flightId")
+    void updateAvailableSeats(@Param("flightId") Long flightId, @Param("totalPeople") Integer totalPeople);
 
 }

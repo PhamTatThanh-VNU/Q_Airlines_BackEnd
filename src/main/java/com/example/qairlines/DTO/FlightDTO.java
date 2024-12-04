@@ -19,7 +19,7 @@ public class FlightDTO {
     private LocalDateTime departureTime;
     private LocalDateTime arrivalTime;
     private BigDecimal price;
-    private int availableSeats;
+    private Integer availableSeats;
     private Flight.Status status;
     private AirCraftDTO aircraft;
     @JsonIgnore private String airCraftCode;

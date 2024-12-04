@@ -1,7 +1,9 @@
 package com.example.qairlines.Utils.SecurityConfig;
 
+import com.example.qairlines.Model.Role;
 import com.example.qairlines.Services.OAuth2LoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,6 +16,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.nio.file.Path;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -22,16 +26,16 @@ public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthFilter jwtAuthFilter;
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(httpRequest -> {
-                    httpRequest.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll();
-                    httpRequest.requestMatchers("/register", "/auth", "/locations/**", "/flights/search")
-                            .permitAll();
-                    httpRequest.requestMatchers(HttpMethod.POST)
-                            .hasAnyAuthority("USER")
+                    httpRequest.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll();
+                    httpRequest.requestMatchers("/swagger-ui/**", "/v3/api-docs/**","/pdf/**").permitAll();
+                    httpRequest.requestMatchers("/register", "/auth", "/locations/**", "/flights/search", "/login/**")
+                            .permitAll()
                             .anyRequest()
                             .authenticated();
                 })

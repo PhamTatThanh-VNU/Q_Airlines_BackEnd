@@ -44,4 +44,8 @@ public class UserServices {
         return jwtService.generateJwtToken(authUser.getUsername());
     }
 
+    public User findByUserId(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+    }
+
 }

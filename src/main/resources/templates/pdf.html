@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;"/>
+    <title>Xác Nhận Đặt Chỗ</title>
+    <style type="text/css">
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'DejaVu Sans', Arial, sans-serif;
+            font-size: 12px;
+            color: #333333;
+            line-height: 1.6;
+            background-color: #f0f0f0;
+        }
+
+        .booking-container {
+            width: 580px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+
+        .header {
+            background-color: #1fdc11;
+            color: #ffffff;
+            text-align: center;
+            padding: 15px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .booking-number {
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .booking-details {
+            padding: 20px;
+        }
+
+        .detail-row {
+            display: table;
+            width: 100%;
+            border-bottom: 1px solid #eaeaea;
+            padding: 10px 0;
+        }
+
+        .detail-label {
+            display: table-cell;
+            font-weight: bold;
+            color: #555555;
+            text-align: left;
+        }
+
+        .detail-value {
+            display: table-cell;
+            text-align: right;
+            color: #333333;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .flight-details {
+            font-size: 10px;
+            color: #666666;
+            margin-top: 5px;
+        }
+
+        .qr-section {
+            background-color: #f9f9f9;
+            text-align: center;
+            padding: 15px;
+            border-top: 1px solid #eaeaea;
+        }
+
+        .footer {
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 10px;
+            font-size: 10px;
+            color: #777777;
+        }
+
+        /* New section for total people and total price */
+        .total-info {
+            background-color: #e9f5e9;
+            padding: 15px;
+            border-top: 1px solid #eaeaea;
+            border-bottom: 1px solid #eaeaea;
+            text-align: center;
+        }
+
+        .total-info .total-label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #2d7e2d;
+        }
+
+        .total-info .total-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #0a3d0a;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="booking-container">
+    <div class="header">
+        <h1>Q Airlines - Xác Nhận Đặt Chỗ</h1>
+    </div>
+
+    <div class="booking-number">
+        MÃ ĐẶT CHỖ: <span th:text="${booking.bookingNumber}"></span>
+    </div>
+
+    <div class="booking-details">
+        <div class="detail-row">
+            <div class="detail-label">Tên Hành Khách</div>
+            <div class="detail-value" th:text="${booking.passengerName}"></div>
+        </div>
+        <div class="detail-row">
+            <div class="detail-label">Email</div>
+            <div class="detail-value" th:text="${booking.email}"></div>
+        </div>
+        <div class="detail-row">
+            <div class="detail-label">Số Điện Thoại</div>
+            <div class="detail-value" th:text="${booking.phoneNumber}"></div>
+        </div>
+        <div class="detail-row">
+            <div class="detail-label">Số Chuyến Bay</div>
+            <div class="detail-value" th:text="${booking.flight.flightNumber}"></div>
+        </div>
+        <div class="detail-row">
+            <div class="detail-label">Mã Tàu Bay</div>
+            <div class="detail-value" th:text="${booking.flight.aircraft.getAircraftCode()}"></div>
+        </div>
+        <div class="detail-row">
+            <div class="detail-label">Điểm Khởi Hành</div>
+            <div class="detail-value">
+                <div th:text="${booking.flight.origin.getAirportName() + ' (' + booking.flight.origin.getLocationName() + ')'}"></div>
+                <div class="flight-details" th:text="${departureTime}">15 Tháng 3, 2024 10:00 Sáng</div>
+            </div>
+        </div>
+        <div class="detail-row">
+            <div class="detail-label">Điểm Đến</div>
+            <div class="detail-value">
+                <div th:text="${booking.flight.destination.getAirportName() + ' (' + booking.flight.destination.getLocationName() + ')'}"></div>
+                <div class="flight-details" th:text="${arrivalTime}"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="total-info">
+        <div class="total-label">Tổng Giá</div>
+        <div class="total-value" th:text="${booking.getTotalPrices()} + ' VND' "></div>
+    </div>
+
+    <div class="qr-section">
+        <p>Chúc quý khách có chuyến bay an toàn và thoải mái! Chúng tôi sẽ liên hệ với quý khách sớm nhất có thể!</p>
+    </div>
+
+    <div class="footer">
+        © 2024 Q Airlines. Xác Nhận Đặt Chỗ Chính Thức. Mọi Quyền Được Bảo Lưu.
+    </div>
+</div>
+</body>
+</html>

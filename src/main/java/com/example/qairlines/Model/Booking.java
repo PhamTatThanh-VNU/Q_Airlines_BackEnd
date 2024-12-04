@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -26,25 +27,33 @@ public class Booking {
     @JoinColumn(name = "flight_id", nullable = false)
     private Flight flight;
 
-    @Column(name = "booking_number", nullable = false, unique = true, length = 20)
+    @Column(name = "booking_number", nullable = false, unique = true, length = 20, updatable = false)
     private String bookingNumber;
 
-    @Column(name = "passenger_name", nullable = false, length = 100)
+    @Column(name = "passenger_name", nullable = false)
     private String passengerName;
 
-    @Column(name = "passenger_id_number", nullable = false, length = 20)
-    private String passengerIdNumber;
+    @Column(name = "passenger_email", nullable = false)
+    private String email;
+
+    @Column(name = "passenger_phone_number", nullable = false, length = 20)
+    private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Status status;
+    private Status status = Status.PENDING;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @Column(name = "booking_pdf", length = 255)
+    private String bookingPdf;
+    @Column(name = "total_prices", length = 255)
+    private Long totalPrices;
     public enum Status {
         PENDING,
         CONFIRMED,
         CANCELLED
     }
+
 }
