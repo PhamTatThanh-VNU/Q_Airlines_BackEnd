@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class FlightDTO {
+    private Long flightId;
     private String flightNumber;
     private LocationDTO origin;
     private LocationDTO destination;
@@ -22,10 +23,12 @@ public class FlightDTO {
     private Integer availableSeats;
     private Flight.Status status;
     private AirCraftDTO aircraft;
-    @JsonIgnore private String airCraftCode;
+    @JsonIgnore
+    private String airCraftCode;
     private LocalDateTime createdAt;
 
-    public FlightDTO(String flightNumber, LocalDateTime departureTime, LocalDateTime arrivalTime, BigDecimal price, int availableSeats, Flight.Status status, LocalDateTime createdAt, String airCraftCode) {
+    public FlightDTO(Long flightId, String flightNumber, LocalDateTime departureTime, LocalDateTime arrivalTime, BigDecimal price, int availableSeats, Flight.Status status, LocalDateTime createdAt, String airCraftCode) {
+        this.flightId = flightId;
         this.flightNumber = flightNumber;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
@@ -36,7 +39,8 @@ public class FlightDTO {
         this.airCraftCode = airCraftCode;
     }
 
-    public FlightDTO(String flightNumber, LocationDTO origin, LocationDTO destination, LocalDateTime departureTime, LocalDateTime arrivalTime, BigDecimal price, int availableSeats, Flight.Status status, AirCraftDTO aircraft, LocalDateTime createdAt) {
+    public FlightDTO(Long flightId, String flightNumber, LocationDTO origin, LocationDTO destination, LocalDateTime departureTime, LocalDateTime arrivalTime, BigDecimal price, int availableSeats, Flight.Status status, AirCraftDTO aircraft, LocalDateTime createdAt) {
+        this.flightId = flightId;
         this.flightNumber = flightNumber;
         this.origin = origin;
         this.destination = destination;

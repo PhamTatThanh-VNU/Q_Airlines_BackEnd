@@ -25,7 +25,7 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
             "FROM AirCraft a WHERE a.aircraftCode = :aircraftCode")
     AirCraftDTO getAircraft(@Param("aircraftCode") String aircraftCode);
 
-    @Query("SELECT new com.example.qairlines.DTO.FlightDTO(f.flightNumber, f.departureTime, f.arrivalTime, f.price, f.availableSeats, f.status, f.createdAt,f.aircraft.aircraftCode)" +
+    @Query("SELECT new com.example.qairlines.DTO.FlightDTO(f.id,f.flightNumber, f.departureTime, f.arrivalTime, f.price, f.availableSeats, f.status, f.createdAt,f.aircraft.aircraftCode)" +
             "FROM Flight f " +
             "WHERE f.origin.code = :originCode " +
             "AND f.destination.code = :destinationCode " +

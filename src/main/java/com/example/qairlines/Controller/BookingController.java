@@ -25,9 +25,8 @@ public class BookingController {
             @PathVariable Long userId,
             @PathVariable Long flightId,
             @RequestBody BookingDTO bookingDTO) {
-        Booking newBooking = bookingService.createBooking(userId, flightId, bookingDTO);
-        String pdfUrl = "/pdf/" + newBooking.getBookingPdf();
-        return ResponseEntity.status(HttpStatus.FOUND).header("Location", pdfUrl).build();
+        bookingService.createBooking(userId, flightId, bookingDTO);
+        return ResponseEntity.status(HttpStatus.FOUND).body("Create successfully");
     }
 
     @GetMapping("/pdfs")

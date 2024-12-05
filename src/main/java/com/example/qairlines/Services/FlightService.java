@@ -24,12 +24,12 @@ public class FlightService {
 
     public List<FlightDTO> getFlightDetails(String originCode, String destinationCode, LocalDate departureTime) {
         List<FlightDTO> flights = flightRepository.getFlightDetails(originCode, destinationCode, departureTime);
-        System.out.println(flights);
         LocationDTO origin = flightRepository.getLocationForFlight(originCode);
         LocationDTO destination = flightRepository.getLocationForFlight(destinationCode);
         List<FlightDTO> flightDTOs = new ArrayList<>();
 
         for (FlightDTO flight : flights) {
+            Long flightId = flight.getFlightId();
             String flightNumber = flight.getFlightNumber();
             LocalDateTime departureTimeField = flight.getDepartureTime();
             LocalDateTime arrivalTime = flight.getArrivalTime();
@@ -42,7 +42,7 @@ public class FlightService {
             System.out.println(aircraft.getAircraftCode());
 
 
-            FlightDTO flightDTO = new FlightDTO(flightNumber, origin, destination, departureTimeField, arrivalTime, price, availableSeats, status, aircraft, createdAt);
+            FlightDTO flightDTO = new FlightDTO(flightId, flightNumber, origin, destination, departureTimeField, arrivalTime, price, availableSeats, status, aircraft, createdAt);
             flightDTOs.add(flightDTO);
         }
         return flightDTOs;
