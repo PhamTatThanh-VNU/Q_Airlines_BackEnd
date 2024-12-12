@@ -27,6 +27,14 @@ public class FlightDTO {
     private String airCraftCode;
     private LocalDateTime createdAt;
 
+    public FlightDTO(String flightNumber, LocalDateTime departureTime, LocalDateTime arrivalTime, BigDecimal price, String airCraftCode) {
+        this.flightNumber = flightNumber;
+        this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
+        this.price = price;
+        this.airCraftCode = airCraftCode;
+    }
+
     public FlightDTO(Long flightId, String flightNumber, LocalDateTime departureTime, LocalDateTime arrivalTime, BigDecimal price, int availableSeats, Flight.Status status, LocalDateTime createdAt, String airCraftCode) {
         this.flightId = flightId;
         this.flightNumber = flightNumber;

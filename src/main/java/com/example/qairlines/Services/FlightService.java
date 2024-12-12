@@ -5,8 +5,6 @@ import com.example.qairlines.DTO.FlightDTO;
 import com.example.qairlines.DTO.LocationDTO;
 import com.example.qairlines.Model.Flight;
 import com.example.qairlines.Repository.FlightRepository;
-import lombok.Data;
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,8 +37,6 @@ public class FlightService {
             LocalDateTime createdAt = flight.getCreatedAt();
             String aircraftCode = flight.getAirCraftCode();
             AirCraftDTO aircraft = flightRepository.getAircraft(aircraftCode);
-            System.out.println(aircraft.getAircraftCode());
-
 
             FlightDTO flightDTO = new FlightDTO(flightId, flightNumber, origin, destination, departureTimeField, arrivalTime, price, availableSeats, status, aircraft, createdAt);
             flightDTOs.add(flightDTO);

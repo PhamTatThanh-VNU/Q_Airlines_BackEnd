@@ -1,6 +1,8 @@
 package com.example.qairlines.Services;
 
-import com.example.qairlines.DTO.BookingDTO;
+import com.example.qairlines.DTO.BookingDTO.BookingResponseDTO;
+import com.example.qairlines.DTO.BookingDTO.BookingSubmitDTO;
+import com.example.qairlines.DTO.FlightDTO;
 import com.example.qairlines.Model.Booking;
 import com.example.qairlines.Model.Flight;
 import com.example.qairlines.Model.User;
@@ -25,6 +27,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingService {
@@ -38,12 +41,12 @@ public class BookingService {
     private TemplateEngine templateEngine;
 
     @Transactional
-    public Booking createBooking(Long userId, Long flightId, BookingDTO bookingDTO) {
+    public Booking createBooking(Long userId, Long flightId, BookingSubmitDTO bookingDTO) {
         Booking newBooking = new Booking();
         User authUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
         Flight flight = flightRepository.findById(flightId).orElseThrow(() -> new RuntimeException("Flight not found with id: " + flightId));
         String bookingNumber = generateBookingNumber();
-        if (bookingDTO.getTotalPeople() > flight.getAvailableSeats()){
+        if (bookingDTO.getTotalPeople() > flight.getAvailableSeats()) {
             return null;
         }
         //Save booking
@@ -54,7 +57,7 @@ public class BookingService {
         newBooking.setPassengerName(bookingDTO.getPassengerName());
         newBooking.setPhoneNumber(bookingDTO.getPhoneNumber());
         newBooking.setTotalPrices(bookingDTO.getTotalPrices());
-        flightRepository.updateAvailableSeats(flightId,bookingDTO.getTotalPeople());
+        newBooking.setTotalPeople(bookingDTO.getTotalPeople());
         // Try to create pdf from html
         try {
             String htmlContent = generateHtmlContent(newBooking);
@@ -109,7 +112,7 @@ public class BookingService {
         return dateTime.format(formatter);
     }
 
-    public List<String> getAllBookingByUserId(Long userId) {
+    public List<BookingResponseDTO> getAllBookingByUserId(Long userId) {
         return bookingRepository.getAllBookingByUserId(userId);
     }
 

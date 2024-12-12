@@ -50,6 +50,8 @@ public class Booking {
     private String bookingPdf;
     @Column(name = "total_prices", length = 255)
     private Long totalPrices;
+    @Column(name = "total_people")
+    private Integer totalPeople;
     public enum Status {
         PENDING,
         CONFIRMED,

@@ -1,7 +1,7 @@
 package com.example.qairlines.Controller;
 
-import com.example.qairlines.DTO.BookingDTO;
-import com.example.qairlines.Model.Booking;
+import com.example.qairlines.DTO.BookingDTO.BookingResponseDTO;
+import com.example.qairlines.DTO.BookingDTO.BookingSubmitDTO;
 import com.example.qairlines.Model.User;
 import com.example.qairlines.Services.BookingService;
 import lombok.RequiredArgsConstructor;
@@ -24,20 +24,15 @@ public class BookingController {
     public ResponseEntity<?> createBooking(
             @PathVariable Long userId,
             @PathVariable Long flightId,
-            @RequestBody BookingDTO bookingDTO) {
+            @RequestBody BookingSubmitDTO bookingDTO) {
         bookingService.createBooking(userId, flightId, bookingDTO);
-        return ResponseEntity.status(HttpStatus.FOUND).body("Create successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Đặt vé thành công, bạn có thể vào phần quản lý vé để xem vé đã đặt");
     }
 
-    @GetMapping("/pdfs")
-    public List<String> getBookingPdfs() {
+    @GetMapping("/bookingInformation")
+    public List<BookingResponseDTO> getBookingPdfs() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User authenticatedUser = (User) authentication.getPrincipal();
-
-        List<String> bookingPdfs = bookingService.getAllBookingByUserId(authenticatedUser.getId());
-
-        return bookingPdfs.stream()
-                .map(bookingPdf -> "/pdf/" + bookingPdf.substring(bookingPdf.lastIndexOf('/') + 1))
-                .collect(Collectors.toList());
+        return bookingService.getAllBookingByUserId(authenticatedUser.getId());
     }
 }

@@ -1,6 +1,5 @@
-package com.example.qairlines.DTO;
+package com.example.qairlines.DTO.BookingDTO;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookingDTO {
+public class BookingSubmitDTO {
     private String passengerName;
     private String email;
     private String phoneNumber;
