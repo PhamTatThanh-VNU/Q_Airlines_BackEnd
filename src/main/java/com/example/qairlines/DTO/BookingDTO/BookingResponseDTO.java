@@ -25,6 +25,7 @@ public class BookingResponseDTO {
     private LocalDateTime arrivalTime;
     private BigDecimal price;
     private String bookingNumber;
+    private String passengerName;
     private String email;
     private String phoneNumber;
     private Booking.Status status;
