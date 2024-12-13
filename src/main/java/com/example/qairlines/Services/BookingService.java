@@ -3,6 +3,7 @@ package com.example.qairlines.Services;
 import com.example.qairlines.DTO.BookingDTO.BookingResponseDTO;
 import com.example.qairlines.DTO.BookingDTO.BookingSubmitDTO;
 import com.example.qairlines.DTO.FlightDTO;
+import com.example.qairlines.DTO.LocationDTO;
 import com.example.qairlines.Model.Booking;
 import com.example.qairlines.Model.Flight;
 import com.example.qairlines.Model.User;
@@ -112,6 +113,11 @@ public class BookingService {
         return dateTime.format(formatter);
     }
 
+    /**
+     * Function to get all booking by one user
+     * @param userId is id of user
+     * @return details information include flight information, location information and booking information
+     */
     public List<BookingResponseDTO> getAllBookingByUserId(Long userId) {
         return bookingRepository.getAllBookingByUserId(userId);
     }
