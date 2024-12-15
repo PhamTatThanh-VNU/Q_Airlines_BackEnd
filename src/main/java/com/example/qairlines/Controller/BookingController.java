@@ -35,4 +35,6 @@ public class BookingController {
         User authenticatedUser = (User) authentication.getPrincipal();
         return bookingService.getAllBookingByUserId(authenticatedUser.getId());
     }
+
+
 }

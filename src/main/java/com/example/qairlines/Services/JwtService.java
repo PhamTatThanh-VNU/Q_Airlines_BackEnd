@@ -19,12 +19,13 @@ public class JwtService {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
     }
 
-    public String generateJwtToken(String username) {
+    public String generateJwtToken(String username, String role) {
         Date issuedAt = new Date(System.currentTimeMillis());
         Date expirationDate = new Date(System.currentTimeMillis() + (1000 * 24 *24));
         return Jwts.builder()
                 .header().type("JWT")
                 .and()
+                .claim("role", role)
                 .subject(username)
                 .issuedAt(issuedAt)
                 .expiration(expirationDate)
@@ -46,7 +47,6 @@ public class JwtService {
     public Date extractExpiration(String jwtToken) {
         return extractClaims(jwtToken).getExpiration();
     }
-
     public boolean isTokenValid(String jwtToken){
         return new Date().before(extractExpiration(jwtToken));
     }

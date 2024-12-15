@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LocationDTO {
+    private Long id;
     private String locationName;
     private String airportName;
     private String code;

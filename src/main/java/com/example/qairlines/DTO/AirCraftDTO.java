@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AirCraftDTO {
+    private Long id;
     private String aircraftCode;
     private String manufacturer;
     private String model;

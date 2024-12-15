@@ -41,7 +41,9 @@ public class UserServices {
 
     public String auth(AuthUser authUser) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authUser.getUsername(), authUser.getPassword()));
-        return jwtService.generateJwtToken(authUser.getUsername());
+        User user = userRepository.findByUsername(authUser.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found!"));
+
+        return jwtService.generateJwtToken(user.getUsername(), user.getRole());
     }
 
     public User findByUserId(Long userId) {

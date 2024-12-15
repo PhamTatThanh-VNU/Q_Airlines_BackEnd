@@ -17,11 +17,11 @@ import java.util.List;
 @Repository
 public interface FlightRepository extends JpaRepository<Flight, Long> {
 
-    @Query("SELECT new com.example.qairlines.DTO.LocationDTO(l.locationName, l.airportName, l.code) " +
+    @Query("SELECT new com.example.qairlines.DTO.LocationDTO(l.id,l.locationName, l.airportName, l.code) " +
             "FROM Location l WHERE l.code = :originCode")
     LocationDTO getLocationForFlight(String originCode);
 
-    @Query("SELECT new com.example.qairlines.DTO.AirCraftDTO(a.aircraftCode, a.manufacturer, a.model, a.seatCapacity) " +
+    @Query("SELECT new com.example.qairlines.DTO.AirCraftDTO(a.id,a.aircraftCode, a.manufacturer, a.model, a.seatCapacity) " +
             "FROM AirCraft a WHERE a.aircraftCode = :aircraftCode")
     AirCraftDTO getAircraft(@Param("aircraftCode") String aircraftCode);
 

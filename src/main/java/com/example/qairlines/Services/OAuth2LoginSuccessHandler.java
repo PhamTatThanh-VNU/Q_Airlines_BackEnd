@@ -46,7 +46,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             newUser = existingUser.get();
         }
 
-        String jwtToken = jwtService.generateJwtToken(newUser.getUsername());
+        String jwtToken = jwtService.generateJwtToken(newUser.getUsername(),newUser.getRole());
         response.setHeader("Authorization", "Bearer " + jwtToken);
 
         super.onAuthenticationSuccess(request, response, authentication);

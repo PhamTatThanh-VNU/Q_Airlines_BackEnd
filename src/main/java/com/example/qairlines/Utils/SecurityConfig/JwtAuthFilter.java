@@ -27,18 +27,36 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         SecurityContext context = SecurityContextHolder.getContext();
         String jwtToken = request.getHeader("Authorization");
-        if (jwtToken == null || context.getAuthentication() != null) {
+
+        // Check if the token is missing or already authenticated
+        if (jwtToken == null || !jwtToken.startsWith("Bearer ") || context.getAuthentication() != null) {
             filterChain.doFilter(request, response);
             return;
         }
-        jwtToken = jwtToken.substring(7);
-        String username = jwtService.extractSubject(jwtToken);
-        if (username != null && jwtService.isTokenValid(jwtToken)) {
-            User user = (User) userDetailsService.loadUserByUsername(username);
-            var authToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-            authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            context.setAuthentication(authToken);
+
+        jwtToken = jwtToken.substring(7); // Remove "Bearer " prefix
+
+        try {
+            String username = jwtService.extractSubject(jwtToken);
+
+            // Check if username is not null and token is valid
+            if (username != null && jwtService.isTokenValid(jwtToken)) {
+                User user = (User) userDetailsService.loadUserByUsername(username);
+                var authToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                context.setAuthentication(authToken);
+            } else {
+                // Invalid token - Respond with 401
+                throw new RuntimeException("Token is invalid or expired");
+            }
+
+        } catch (RuntimeException e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized
+            response.getWriter().write("{\"message\": \"Token is invalid or expired\"}");
+            response.getWriter().flush();
+            return; // Stop further filter chain execution
         }
+
         filterChain.doFilter(request, response);
     }
 }
