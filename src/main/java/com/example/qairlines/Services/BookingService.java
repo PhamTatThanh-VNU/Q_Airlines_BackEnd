@@ -47,7 +47,7 @@ public class BookingService {
         User authUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
         Flight flight = flightRepository.findById(flightId).orElseThrow(() -> new RuntimeException("Flight not found with id: " + flightId));
         String bookingNumber = generateBookingNumber();
-        if (bookingDTO.getTotalPeople() > flight.getAvailableSeats()) {
+        if (bookingDTO.getTotalPeople() > flight.getAvailableBusinessSeats() + flight.getAvailableEconomySeats()) {
             return null;
         }
         //Save booking

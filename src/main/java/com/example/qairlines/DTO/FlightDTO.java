@@ -20,7 +20,8 @@ public class FlightDTO {
     private LocalDateTime departureTime;
     private LocalDateTime arrivalTime;
     private BigDecimal price;
-    private Integer availableSeats;
+    private Integer availableEconomySeats ;
+    private Integer availableBusinessSeats ;
     private Flight.Status status;
     private AirCraftDTO aircraft;
     @JsonIgnore
@@ -35,19 +36,20 @@ public class FlightDTO {
         this.airCraftCode = airCraftCode;
     }
 
-    public FlightDTO(Long flightId, String flightNumber, LocalDateTime departureTime, LocalDateTime arrivalTime, BigDecimal price, int availableSeats, Flight.Status status, LocalDateTime createdAt, String airCraftCode) {
+    public FlightDTO(Long flightId, String flightNumber, LocalDateTime departureTime, LocalDateTime arrivalTime, BigDecimal price, Integer availableEconomySeats,Integer availableBusinessSeats, Flight.Status status, LocalDateTime createdAt, String airCraftCode) {
         this.flightId = flightId;
         this.flightNumber = flightNumber;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
         this.price = price;
-        this.availableSeats = availableSeats;
+        this.availableEconomySeats = availableEconomySeats;
+        this.availableBusinessSeats = availableBusinessSeats;
         this.status = status;
         this.createdAt = createdAt;
         this.airCraftCode = airCraftCode;
     }
 
-    public FlightDTO(Long flightId, String flightNumber, LocationDTO origin, LocationDTO destination, LocalDateTime departureTime, LocalDateTime arrivalTime, BigDecimal price, int availableSeats, Flight.Status status, AirCraftDTO aircraft, LocalDateTime createdAt) {
+    public FlightDTO(Long flightId, String flightNumber, LocationDTO origin, LocationDTO destination, LocalDateTime departureTime, LocalDateTime arrivalTime, BigDecimal price, Integer availableEconomySeats,Integer availableBusinessSeats, Flight.Status status, AirCraftDTO aircraft, LocalDateTime createdAt) {
         this.flightId = flightId;
         this.flightNumber = flightNumber;
         this.origin = origin;
@@ -55,7 +57,8 @@ public class FlightDTO {
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
         this.price = price;
-        this.availableSeats = availableSeats;
+        this.availableEconomySeats = availableEconomySeats;
+        this.availableBusinessSeats = availableBusinessSeats;
         this.status = status;
         this.aircraft = aircraft;
         this.createdAt = createdAt;

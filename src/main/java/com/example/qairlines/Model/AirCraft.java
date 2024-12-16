@@ -28,8 +28,11 @@ public class AirCraft {
     @Column(nullable = false, length = 100)
     private String model;
 
-    @Column(name = "seat_capacity", nullable = false)
-    private int seatCapacity;
+    @Column(name = "economy_capacity", nullable = false)
+    private int economyCapacity;
+
+    @Column(name = "business_capacity", nullable = false)
+    private int businessCapacity;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();

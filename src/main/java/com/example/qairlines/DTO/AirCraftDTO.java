@@ -14,5 +14,6 @@ public class AirCraftDTO {
     private String aircraftCode;
     private String manufacturer;
     private String model;
-    private int seatCapacity;
+    private Integer economyCapacity;
+    private Integer businessCapacity;
 }

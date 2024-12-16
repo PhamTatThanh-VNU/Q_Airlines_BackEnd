@@ -35,7 +35,8 @@ public class AircraftService {
         existingAirCraft.setAircraftCode(updatedAirCraft.getAircraftCode());
         existingAirCraft.setManufacturer(updatedAirCraft.getManufacturer());
         existingAirCraft.setModel(updatedAirCraft.getModel());
-        existingAirCraft.setSeatCapacity(updatedAirCraft.getSeatCapacity());
+        existingAirCraft.setEconomyCapacity(updatedAirCraft.getEconomyCapacity());
+        existingAirCraft.setBusinessCapacity(updatedAirCraft.getBusinessCapacity());
         return aircraftRepository.save(existingAirCraft);
     }
 
@@ -59,7 +60,8 @@ public class AircraftService {
                 airCraft.getAircraftCode(),
                 airCraft.getManufacturer(),
                 airCraft.getModel(),
-                airCraft.getSeatCapacity()
+                airCraft.getEconomyCapacity(),
+                airCraft.getBusinessCapacity()
         );
     }
 }
