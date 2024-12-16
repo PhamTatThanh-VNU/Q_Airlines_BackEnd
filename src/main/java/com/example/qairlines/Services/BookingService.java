@@ -57,6 +57,7 @@ public class BookingService {
         newBooking.setEmail(bookingDTO.getEmail());
         newBooking.setPassengerName(bookingDTO.getPassengerName());
         newBooking.setPhoneNumber(bookingDTO.getPhoneNumber());
+        newBooking.setTicketClass(bookingDTO.getTicketClass());
         newBooking.setTotalPrices(bookingDTO.getTotalPrices());
         newBooking.setTotalPeople(bookingDTO.getTotalPeople());
         // Try to create pdf from html
