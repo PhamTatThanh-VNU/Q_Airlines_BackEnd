@@ -48,6 +48,8 @@ public class Booking {
 
     @Column(name = "booking_pdf", length = 255)
     private String bookingPdf;
+    @Column(name = "ticket_class", length = 255)
+    private String ticketClass;
     @Column(name = "total_prices", length = 255)
     private Long totalPrices;
     @Column(name = "total_people")

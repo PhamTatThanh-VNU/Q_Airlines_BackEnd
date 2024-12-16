@@ -28,6 +28,7 @@ public class BookingResponseDTO {
     private String passengerName;
     private String email;
     private String phoneNumber;
+    private String ticketClass;
     private Booking.Status status;
     private Integer totalPeople;
     private String pdfs;
