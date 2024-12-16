@@ -16,18 +16,22 @@ public class NewsController {
 
     /**
      * Route to get all new list
+     *
      * @return list of news
      */
     @GetMapping("/all")
     public ResponseEntity<List<News>> getAllNews() {
         return ResponseEntity.ok(newsService.getAllNews());
     }
+
     @GetMapping("/allPublishNews")
     public ResponseEntity<List<News>> getAllNewsByStatus() {
         return ResponseEntity.ok(newsService.getNewsByStatus());
     }
+
     /**
      * Create news
+     *
      * @param news object is body of post method
      * @return news just created
      */
@@ -38,6 +42,7 @@ public class NewsController {
 
     /**
      * Route for update existed new
+     *
      * @return news just updated
      */
     @PutMapping("/update/{id}")
@@ -50,7 +55,23 @@ public class NewsController {
     }
 
     /**
+     * Accept news and change status from DRAFT to PUBLISHED
+     *
+     * @return the updated news
+     */
+    @PutMapping("/accept/{id}")
+    public ResponseEntity<News> acceptNews(@PathVariable Long id) {
+        try {
+            News updatedNews = newsService.acceptNews(id);
+            return ResponseEntity.ok(updatedNews);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    /**
      * Route to delete news
+     *
      * @return nothing
      */
     @DeleteMapping("/delete/{id}")

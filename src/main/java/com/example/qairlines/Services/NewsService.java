@@ -62,6 +62,24 @@ public class NewsService {
         }
     }
 
+    /**
+     * Accept news, change status from DRAFT to PUBLISHED
+     * @param id of news that you want to accept
+     * @return updated news
+     */
+    public News acceptNews(Long id) {
+        return newsRepository.findById(id)
+                .map(existingNews -> {
+                    if (existingNews.getStatus() == News.Status.DRAFT) {
+                        existingNews.setStatus(News.Status.PUBLISHED);
+                        return newsRepository.save(existingNews);
+                    } else {
+                        throw new IllegalArgumentException("News with id " + id + " is not in DRAFT status");
+                    }
+                })
+                .orElseThrow(() -> new IllegalArgumentException("News with id " + id));
+    }
+
     public List<News> getNewsByStatus() {
         return newsRepository.getAllNewsByStatus();
     }
