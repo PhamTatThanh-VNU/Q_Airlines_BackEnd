@@ -31,6 +31,14 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
     List<FlightDTO> getFlightDetails(@Param("originCode") String originCode,
                                      @Param("destinationCode") String destinationCode,
                                      @Param("departureTime") LocalDate departureTime);
+    @Query("SELECT new com.example.qairlines.DTO.FlightDTO(f.id, f.flightNumber, f.departureTime, f.arrivalTime, f.price, f.availableEconomySeats, f.availableBusinessSeats, f.status, f.createdAt, f.aircraft.aircraftCode) " +
+            "FROM Flight f " +
+            "WHERE (f.origin.code = :originCode AND f.destination.code = :destinationCode AND DATE(f.departureTime) = :departureDate) " +
+            "OR (f.origin.code = :destinationCode AND f.destination.code = :originCode AND DATE(f.departureTime) = :returnDate)")
+    List<FlightDTO> getFlightsForRoundTrip(@Param("originCode") String originCode,
+                                           @Param("destinationCode") String destinationCode,
+                                           @Param("departureDate") LocalDate departureDate,
+                                           @Param("returnDate") LocalDate returnDate);
 //    @Modifying
 //    @Query("UPDATE Flight f SET f.availableSeats = f.availableSeats - :totalPeople WHERE f.id = :flightId")
 //    void updateAvailableSeats(@Param("flightId") Long flightId, @Param("totalPeople") Integer totalPeople);

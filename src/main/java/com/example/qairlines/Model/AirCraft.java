@@ -29,10 +29,10 @@ public class AirCraft {
     private String model;
 
     @Column(name = "economy_capacity", nullable = false)
-    private int economyCapacity;
+    private Integer economyCapacity;
 
     @Column(name = "business_capacity", nullable = false)
-    private int businessCapacity;
+    private Integer businessCapacity;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
