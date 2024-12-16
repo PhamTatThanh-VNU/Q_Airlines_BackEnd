@@ -37,7 +37,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(httpRequest -> {
                     httpRequest.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll();
                     httpRequest.requestMatchers("/swagger-ui/**", "/v3/api-docs/**","/pdf/**").permitAll();
-                    httpRequest.requestMatchers("/register", "/auth", "/locations/all", "/flights/search", "/login/**")
+                    httpRequest.requestMatchers("/register", "/auth", "/locations/all", "/flights/search", "/login/**", "news/allPublishNews")
                             .permitAll()
                             .anyRequest()
                             .authenticated();
