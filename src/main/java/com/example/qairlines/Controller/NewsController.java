@@ -22,7 +22,7 @@ public class NewsController {
     public ResponseEntity<List<News>> getAllNews() {
         return ResponseEntity.ok(newsService.getAllNews());
     }
-    @GetMapping("/all")
+    @GetMapping("/allPublishNews")
     public ResponseEntity<List<News>> getAllNewsByStatus() {
         return ResponseEntity.ok(newsService.getNewsByStatus());
     }
