@@ -24,11 +24,27 @@ public class FlightController {
         return ResponseEntity.ok(flightService.getAllFlights());
     }
 
-    // 5. Delete a flight
+    /**
+     * Route to CRUD
+     */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteFlight(@PathVariable Long id) {
         flightService.deleteFlight(id);
         return ResponseEntity.noContent().build();
+    }
+    @PutMapping("/update/{id}")
+    public ResponseEntity<FlightDTO> updateFlight(@PathVariable Long id, @RequestBody FlightDTO flightDTO) {
+        try {
+            FlightDTO updatedFlight = flightService.updateFlight(id, flightDTO);
+            return ResponseEntity.ok(updatedFlight);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @PostMapping("/add")
+    public ResponseEntity<FlightDTO> addFlight(@RequestBody FlightDTO flightDTO) {
+        FlightDTO savedFlight = flightService.addFlight(flightDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedFlight);
     }
 
     /**

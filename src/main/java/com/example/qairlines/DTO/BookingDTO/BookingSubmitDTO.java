@@ -12,5 +12,6 @@ public class BookingSubmitDTO {
     private String email;
     private String phoneNumber;
     private Long totalPrices;
+    private String ticketClass;
     private Integer totalPeople;
 }

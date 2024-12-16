@@ -27,6 +27,28 @@ public class FlightService {
         return flightRepository.findAll().stream().map(this::toFlightDTO).toList();
     }
 
+    /**
+     * The below function to CRUD flight
+     */
+    public FlightDTO updateFlight(Long id, FlightDTO flightDTO) {
+        Flight existingFlight = flightRepository.findById(id).orElseThrow(() -> new RuntimeException("Flight not found with id " + id));
+        //Update
+        existingFlight.setFlightNumber(flightDTO.getFlightNumber());
+        existingFlight.setOrigin(toLocationEntity(flightDTO.getOrigin()));
+        existingFlight.setDestination(toLocationEntity(flightDTO.getDestination()));
+        existingFlight.setDepartureTime(flightDTO.getDepartureTime());
+        existingFlight.setArrivalTime(flightDTO.getArrivalTime());
+        existingFlight.setPrice(flightDTO.getPrice());
+        existingFlight.setAvailableEconomySeats(flightDTO.getAvailableEconomySeats());
+        existingFlight.setAvailableBusinessSeats(flightDTO.getAvailableBusinessSeats());
+        existingFlight.setStatus(flightDTO.getStatus());
+        existingFlight.setAircraft(toAirCraftEntity(flightDTO.getAircraft()));
+        //Save
+        Flight updatedFlight = flightRepository.save(existingFlight);
+        //Return update
+        return toFlightDTO(updatedFlight);
+    }
+
     public void deleteFlight(Long id) {
         if (!flightRepository.existsById(id)) {
             throw new RuntimeException("Flight not found with id " + id);
@@ -34,6 +56,51 @@ public class FlightService {
         flightRepository.deleteById(id);
     }
 
+    public FlightDTO addFlight(FlightDTO flightDTO) {
+        // Convert DTO to Entity
+        Flight flight = new Flight();
+        flight.setFlightNumber(flightDTO.getFlightNumber());
+        flight.setOrigin(toLocationEntity(flightDTO.getOrigin()));
+        flight.setDestination(toLocationEntity(flightDTO.getDestination()));
+        flight.setDepartureTime(flightDTO.getDepartureTime());
+        flight.setArrivalTime(flightDTO.getArrivalTime());
+        flight.setPrice(flightDTO.getPrice());
+        flight.setAvailableEconomySeats(flightDTO.getAvailableEconomySeats());
+        flight.setAvailableBusinessSeats(flightDTO.getAvailableBusinessSeats());
+        flight.setStatus(flightDTO.getStatus());
+        flight.setAircraft(toAirCraftEntity(flightDTO.getAircraft()));
+        flight.setCreatedAt(LocalDateTime.now());
+
+        // Save to the database
+        Flight savedFlight = flightRepository.save(flight);
+
+        // Return the saved flight as DTO
+        return toFlightDTO(savedFlight);
+    }
+
+    /**
+     * The below function for convert DTO to entity
+     */
+    private Location toLocationEntity(LocationDTO locationDTO) {
+        if (locationDTO == null) return null;
+        Location location = new Location();
+        location.setId(locationDTO.getId());
+        location.setLocationName(locationDTO.getLocationName());
+        location.setAirportName(locationDTO.getAirportName());
+        location.setCode(locationDTO.getCode());
+        return location;
+    }
+
+    private AirCraft toAirCraftEntity(AirCraftDTO airCraftDTO) {
+        if (airCraftDTO == null) return null;
+        AirCraft aircraft = new AirCraft();
+        aircraft.setId(airCraftDTO.getId());
+        aircraft.setAircraftCode(airCraftDTO.getAircraftCode());
+        aircraft.setManufacturer(airCraftDTO.getManufacturer());
+        aircraft.setEconomyCapacity(airCraftDTO.getEconomyCapacity());
+        aircraft.setBusinessCapacity(airCraftDTO.getBusinessCapacity());
+        return aircraft;
+    }
 
     /**
      * Three below function implement for converting entity to data transfer object
@@ -73,6 +140,7 @@ public class FlightService {
 
     /**
      * The function for client to get flight details
+     *
      * @param originCode      is code of origin location
      * @param destinationCode is code of destination location
      * @param departureTime   is time that passenger want to get start
@@ -114,12 +182,14 @@ public class FlightService {
         }
         return flightDTOs;
     }
+
     /**
      * The function for client  want to get flight details for round trip
-     * @param originCode  is code of origin location
+     *
+     * @param originCode      is code of origin location
      * @param destinationCode is code of destination location
-     * @param departureTime  is time that passenger want to get start
-     * @param returnTime is time that passenger want to return
+     * @param departureTime   is time that passenger want to get start
+     * @param returnTime      is time that passenger want to return
      * @return list flight data transfer object
      */
     public List<FlightDTO> getFlightsForRoundTrip(String originCode, String destinationCode, LocalDate departureTime, LocalDate returnTime, Integer totalSeat, String ticketClass) {
