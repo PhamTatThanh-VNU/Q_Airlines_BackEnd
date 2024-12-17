@@ -31,5 +31,6 @@ public class BookingResponseDTO {
     private String ticketClass;
     private Booking.Status status;
     private Integer totalPeople;
+    private LocalDateTime createdAt;
     private String pdfs;
 }

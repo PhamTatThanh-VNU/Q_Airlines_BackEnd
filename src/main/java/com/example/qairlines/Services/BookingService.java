@@ -11,6 +11,7 @@ import com.example.qairlines.Repository.BookingRepository;
 import com.example.qairlines.Repository.FlightRepository;
 import com.example.qairlines.Repository.UserRepository;
 import com.itextpdf.text.pdf.BaseFont;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -41,6 +42,13 @@ public class BookingService {
     @Autowired
     private TemplateEngine templateEngine;
 
+    /**
+     * The function for create new booking
+     * @param userId id of user want to create new booking
+     * @param flightId id of flight user want to book
+     * @param bookingDTO data transfer object booking
+     * @return new Booking just create
+     */
     @Transactional
     public Booking createBooking(Long userId, Long flightId, BookingSubmitDTO bookingDTO) {
         Booking newBooking = new Booking();
@@ -73,6 +81,38 @@ public class BookingService {
         return bookingRepository.save(newBooking);
     }
 
+
+
+    @Transactional
+    public Booking confirmBooking(Long bookingId) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new EntityNotFoundException("Booking with id " + bookingId + " not found"));
+
+        if (booking.getStatus() != Booking.Status.PENDING) {
+            throw new IllegalStateException("Only PENDING bookings can be confirmed.");
+        }
+
+        booking.setStatus(Booking.Status.CONFIRMED);
+        return bookingRepository.save(booking);
+    }
+
+    @Transactional
+    public Booking cancelBooking(Long bookingId) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new EntityNotFoundException("Booking with id " + bookingId + " not found"));
+
+        if (booking.getStatus() != Booking.Status.PENDING) {
+            throw new IllegalStateException("Only PENDING bookings can be cancelled.");
+        }
+
+        booking.setStatus(Booking.Status.CANCELLED);
+        return bookingRepository.save(booking);
+    }
+
+
+    /**
+     * Extension function to generate pdf file
+     */
     private String generateBookingNumber() {
         return "BK-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     }

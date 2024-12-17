@@ -2,6 +2,7 @@ package com.example.qairlines.Controller;
 
 import com.example.qairlines.DTO.BookingDTO.BookingResponseDTO;
 import com.example.qairlines.DTO.BookingDTO.BookingSubmitDTO;
+import com.example.qairlines.Model.Booking;
 import com.example.qairlines.Model.User;
 import com.example.qairlines.Services.BookingService;
 import lombok.RequiredArgsConstructor;
@@ -35,5 +36,16 @@ public class BookingController {
         return bookingService.getAllBookingByUserId(authenticatedUser.getId());
     }
 
+    @PutMapping("/cancelBooking/{id}")
+    public ResponseEntity<?> cancelBooking(@PathVariable Long id) {
+        bookingService.cancelBooking(id);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Hủy vé thành công");
+    }
+
+    @PutMapping("/confirmBooking/{id}")
+    public ResponseEntity<?> confirmBooking(@PathVariable Long id) {
+        bookingService.confirmBooking(id);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Confirm ticket");
+    }
 
 }
