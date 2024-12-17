@@ -42,6 +42,11 @@ public class BookingController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Hủy vé thành công");
     }
 
+    @GetMapping("/allBooking")
+    public List<BookingResponseDTO> getAllBooking() {
+        return bookingService.getAllBooking();
+    }
+
     @PutMapping("/confirmBooking/{id}")
     public ResponseEntity<?> confirmBooking(@PathVariable Long id) {
         bookingService.confirmBooking(id);

@@ -162,5 +162,10 @@ public class BookingService {
     public List<BookingResponseDTO> getAllBookingByUserId(Long userId) {
         return bookingRepository.getAllBookingByUserId(userId);
     }
-
+    /**
+     * Function to get all booking for admin
+     */
+    public List<BookingResponseDTO> getAllBooking() {
+        return bookingRepository.getAllBooking();
+    }
 }
