@@ -52,5 +52,9 @@ public class BookingController {
         bookingService.confirmBooking(id);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Confirm ticket");
     }
-
+    @DeleteMapping("/deleteCancelled")
+    public ResponseEntity<String> deleteCancelledBookings() {
+        bookingService.deleteBookingByStatus(Booking.Status.CANCELLED);
+        return ResponseEntity.ok("All cancelled bookings have been deleted.");
+    }
 }

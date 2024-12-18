@@ -2,8 +2,6 @@ package com.example.qairlines.Services;
 
 import com.example.qairlines.DTO.BookingDTO.BookingResponseDTO;
 import com.example.qairlines.DTO.BookingDTO.BookingSubmitDTO;
-import com.example.qairlines.DTO.FlightDTO;
-import com.example.qairlines.DTO.LocationDTO;
 import com.example.qairlines.Model.Booking;
 import com.example.qairlines.Model.Flight;
 import com.example.qairlines.Model.User;
@@ -167,5 +165,8 @@ public class BookingService {
      */
     public List<BookingResponseDTO> getAllBooking() {
         return bookingRepository.getAllBooking();
+    }
+    public void deleteBookingByStatus(Booking.Status status) {
+        bookingRepository.deleteBookingsByStatus(status);
     }
 }

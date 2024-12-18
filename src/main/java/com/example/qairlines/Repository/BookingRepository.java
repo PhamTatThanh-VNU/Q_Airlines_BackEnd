@@ -2,7 +2,9 @@ package com.example.qairlines.Repository;
 
 import com.example.qairlines.DTO.BookingDTO.BookingResponseDTO;
 import com.example.qairlines.Model.Booking;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -24,5 +26,9 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "from Booking as b")
     List<BookingResponseDTO> getAllBooking();
 
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM Booking b WHERE b.status = :status")
+    void deleteBookingsByStatus(Booking.Status status);
 }
 
