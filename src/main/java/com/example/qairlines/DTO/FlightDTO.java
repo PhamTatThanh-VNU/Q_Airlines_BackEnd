@@ -1,9 +1,7 @@
 package com.example.qairlines.DTO;
 
-import com.example.qairlines.Model.AirCraft;
 import com.example.qairlines.Model.Flight;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

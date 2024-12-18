@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
     private final UserServices userServices;
-    private final JwtDecoder jwtDecoder;
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody User regUser) {
@@ -27,9 +25,9 @@ public class UserController {
         return ResponseEntity.ok(userServices.auth(authUser));
     }
     @PostMapping("/auth/google")
-    public ResponseEntity<?> googleLogin(@RequestBody String googleToken) {
+    public ResponseEntity<?> googleLogin(@RequestBody String accessToken) {
         try {
-            String jwtToken = userServices.googleAuth(googleToken, jwtDecoder);
+            String jwtToken = userServices.googleAuth(accessToken);
             return ResponseEntity.ok(jwtToken);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token invalid");
