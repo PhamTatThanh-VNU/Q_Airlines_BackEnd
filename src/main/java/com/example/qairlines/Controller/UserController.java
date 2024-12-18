@@ -29,7 +29,6 @@ public class UserController {
     @PostMapping("/auth/google")
     public ResponseEntity<?> googleLogin(@RequestBody String googleToken) {
         try {
-            // Xử lý đăng nhập Google thông qua UserServices
             String jwtToken = userServices.googleAuth(googleToken, jwtDecoder);
             return ResponseEntity.ok(jwtToken);
         } catch (Exception e) {

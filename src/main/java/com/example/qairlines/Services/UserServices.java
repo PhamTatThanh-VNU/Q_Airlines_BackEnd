@@ -5,6 +5,7 @@ import com.example.qairlines.Model.Role;
 import com.example.qairlines.Model.User;
 import com.example.qairlines.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,6 +23,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserServices {
+    @Value("${jwt.secret}")
+    private String secretPassword;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
@@ -57,6 +60,7 @@ public class UserServices {
             User newUser = User.builder()
                     .username(email)
                     .fullName(name)
+                    .password(passwordEncoder.encode(secretPassword))
                     .role(Role.USER.name())
                     .build();
             return userRepository.save(newUser);
