@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,9 +47,22 @@ public class UserServices {
 
         return jwtService.generateJwtToken(user.getUsername(), user.getRole());
     }
+    public String googleAuth(String googleToken, JwtDecoder jwtDecoder) {
+        Jwt decodedToken = jwtDecoder.decode(googleToken);
 
-    public User findByUserId(Long userId) {
-        return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        String email = decodedToken.getClaimAsString("email");
+        String name = decodedToken.getClaimAsString("name");
+
+        User user = userRepository.findByUsername(email).orElseGet(() -> {
+            User newUser = User.builder()
+                    .username(email)
+                    .fullName(name)
+                    .role(Role.USER.name())
+                    .build();
+            return userRepository.save(newUser);
+        });
+
+        return jwtService.generateJwtToken(user.getUsername(), user.getRole());
     }
 
 }

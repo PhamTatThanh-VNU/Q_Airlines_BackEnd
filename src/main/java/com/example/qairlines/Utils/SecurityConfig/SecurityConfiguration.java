@@ -1,7 +1,7 @@
 package com.example.qairlines.Utils.SecurityConfig;
 
 
-import com.example.qairlines.Services.OAuth2LoginSuccessHandler;
+import com.example.qairlines.Services.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -12,14 +12,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.nio.file.Path;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -28,7 +25,6 @@ import java.util.List;
 public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthFilter jwtAuthFilter;
-    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsConfigurationSource corsConfigurationSource) throws Exception {
@@ -37,18 +33,20 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(httpRequest -> {
                     httpRequest.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll();
                     httpRequest.requestMatchers("/swagger-ui/**", "/v3/api-docs/**","/pdf/**").permitAll();
-                    httpRequest.requestMatchers("/register", "/auth", "/locations/all", "/flights/search", "/login/**", "news/allPublishNews")
+                    httpRequest.requestMatchers("/register", "/auth/**", "/locations/all", "/flights/search", "/login/**", "news/allPublishNews")
                             .permitAll()
                             .anyRequest()
                             .authenticated();
                 })
-//                .oauth2Login(oauth2 -> oauth2
-//                        .successHandler(oAuth2LoginSuccessHandler)
-//                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .authenticationProvider(authenticationProvider);
         return http.build();
+    }
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        String jwkSetUri = "https://www.googleapis.com/oauth2/v3/certs";
+        return NimbusJwtDecoder.withJwkSetUri(jwkSetUri).build();
     }
 
 }
