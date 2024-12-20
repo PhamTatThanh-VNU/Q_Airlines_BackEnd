@@ -90,9 +90,27 @@ public class BookingService {
             throw new IllegalStateException("Only PENDING bookings can be confirmed.");
         }
 
+        Flight flight = booking.getFlight();
+
+        if (booking.getTicketClass().equalsIgnoreCase("economy")) {
+            if (flight.getAvailableEconomySeats() < booking.getTotalPeople()) {
+                throw new IllegalStateException("Not enough available economy seats for this booking.");
+            }
+            flight.setAvailableEconomySeats(flight.getAvailableEconomySeats() - booking.getTotalPeople());
+        } else if (booking.getTicketClass().equalsIgnoreCase("business")) {
+            if (flight.getAvailableBusinessSeats() < booking.getTotalPeople()) {
+                throw new IllegalStateException("Not enough available business seats for this booking.");
+            }
+            flight.setAvailableBusinessSeats(flight.getAvailableBusinessSeats() - booking.getTotalPeople());
+        } else {
+            throw new IllegalArgumentException("Invalid ticket class: " + booking.getTicketClass());
+        }
+
         booking.setStatus(Booking.Status.CONFIRMED);
+        flightRepository.save(flight);
         return bookingRepository.save(booking);
     }
+
 
     @Transactional
     public Booking cancelBooking(Long bookingId) {
