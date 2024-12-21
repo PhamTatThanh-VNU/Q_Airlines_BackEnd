@@ -28,7 +28,7 @@
         }
 
         .header {
-            background-color: #1fdc11;
+            background-color: #00cc88;
             color: #ffffff;
             text-align: center;
             padding: 15px;
@@ -109,7 +109,7 @@
         .total-info .total-label {
             font-size: 14px;
             font-weight: bold;
-            color: #2d7e2d;
+            color: #00cc88;
         }
 
         .total-info .total-value {
@@ -123,16 +123,16 @@
 <body>
 <div class="booking-container">
     <div class="header">
-        <h1>Q Airlines - Xác Nhận Đặt Chỗ</h1>
+        <h1>Q Airlines - Confirm Booking</h1>
     </div>
 
     <div class="booking-number">
-        MÃ ĐẶT CHỖ: <span th:text="${booking.bookingNumber}"></span>
+        Booking Number: <span th:text="${booking.bookingNumber}"></span>
     </div>
 
     <div class="booking-details">
         <div class="detail-row">
-            <div class="detail-label">Tên Hành Khách</div>
+            <div class="detail-label">Passenger Name</div>
             <div class="detail-value" th:text="${booking.passengerName}"></div>
         </div>
         <div class="detail-row">
@@ -140,26 +140,26 @@
             <div class="detail-value" th:text="${booking.email}"></div>
         </div>
         <div class="detail-row">
-            <div class="detail-label">Số Điện Thoại</div>
+            <div class="detail-label">Phone Number</div>
             <div class="detail-value" th:text="${booking.phoneNumber}"></div>
         </div>
         <div class="detail-row">
-            <div class="detail-label">Số Chuyến Bay</div>
+            <div class="detail-label">Flight Number</div>
             <div class="detail-value" th:text="${booking.flight.flightNumber}"></div>
         </div>
         <div class="detail-row">
-            <div class="detail-label">Mã Tàu Bay</div>
+            <div class="detail-label">Aircraft Code</div>
             <div class="detail-value" th:text="${booking.flight.aircraft.getAircraftCode()}"></div>
         </div>
         <div class="detail-row">
-            <div class="detail-label">Điểm Khởi Hành</div>
+            <div class="detail-label">Departure</div>
             <div class="detail-value">
                 <div th:text="${booking.flight.origin.getAirportName() + ' (' + booking.flight.origin.getLocationName() + ')'}"></div>
                 <div class="flight-details" th:text="${departureTime}">15 Tháng 3, 2024 10:00 Sáng</div>
             </div>
         </div>
         <div class="detail-row">
-            <div class="detail-label">Điểm Đến</div>
+            <div class="detail-label">Destination</div>
             <div class="detail-value">
                 <div th:text="${booking.flight.destination.getAirportName() + ' (' + booking.flight.destination.getLocationName() + ')'}"></div>
                 <div class="flight-details" th:text="${arrivalTime}"></div>
@@ -168,16 +168,16 @@
     </div>
 
     <div class="total-info">
-        <div class="total-label">Tổng Giá</div>
-        <div class="total-value" th:text="${booking.getTotalPrices()} + ' VND' "></div>
+        <div class="total-label">Total Prices</div>
+        <div class="total-value" th:text="${booking.getTotalPrices()} + '$' "></div>
     </div>
 
     <div class="qr-section">
-        <p>Chúc quý khách có chuyến bay an toàn và thoải mái! Chúng tôi sẽ liên hệ với quý khách sớm nhất có thể!</p>
+        <p>We wish you a safe and comfortable flight! We will contact you as soon as possible!</p>
     </div>
 
     <div class="footer">
-        © 2024 Q Airlines. Xác Nhận Đặt Chỗ Chính Thức. Mọi Quyền Được Bảo Lưu.
+        © 2024 Q Airlines. Official Booking Confirmation. All Rights Reserved.
     </div>
 </div>
 </body>
